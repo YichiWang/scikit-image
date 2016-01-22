@@ -58,9 +58,10 @@ def clear_border(labels, buffer_size=0, bgval=0, in_place=False):
     borders[:, :ext] = True
     borders[:, - ext:] = True
 
-    # Re-label, in case we are dealing with a binary image
-    # and to get consistent labeling
-    labels = label(image, background=0) + 1
+    # Re-label if we are dealing with a binary image
+    # Otherwise keep original lables
+    if np.max(image) == 1: # check if the image is binary
+        labels = label(image)[0] + 1 #Function 'lable' has no parameter 'background', and the output is taple
     number = np.max(labels) + 1
 
     # determine all objects that are connected to borders
